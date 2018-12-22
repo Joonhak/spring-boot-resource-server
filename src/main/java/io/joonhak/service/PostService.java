@@ -37,4 +37,7 @@ public class PostService {
 		log.info( "POSTS : {}", postRepo.saveAll(Arrays.asList(post1, post2, post3, post4, post5)) );
 	}
 	
+	public Post save(Post post) {
+		return postRepo.save(post);
+	}
 }
