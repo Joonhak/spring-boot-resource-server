@@ -23,7 +23,7 @@ public class PostController {
 	private PostService postService;
 	
 	@PreAuthorize("#oauth2.hasScope('read')")
-	@GetMapping("/ALL")
+	@GetMapping("/list")
 	public List<Post> getPostList(@AuthenticationPrincipal OAuth2Authentication authentication, HttpServletRequest req) {
 		log.info("AUTHENTICATION INFORMATION : {}", authentication);
 		log.info("IS ADMIN? : {}", req.isUserInRole("ADMIN"));
@@ -33,9 +33,16 @@ public class PostController {
 		return postService.getAllPosts();
 	}
 	
+	@PreAuthorize("#oauth2.hasScope('read')")
 	@GetMapping("/{id}")
 	public Post getPost(@PathVariable Long id) {
 		return postService.getPost(id);
+	}
+	
+	@PreAuthorize("#oauth2.hasScope('write')")
+	@PostMapping("/")
+	public Post savePost(Post post) {
+		return postService.save(post);
 	}
 	
 }
